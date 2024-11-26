@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Меню и Генератор</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .menu, .generator {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        .menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu li {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .menu li:last-child {
+            border-bottom: none;
+        }
+
+        .menu li b {
+            color: #007bff;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        #letter {
+            font-size: 48px;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Меню и Генератор букв</h1>
+    <div class="container">
+        <!-- Блок Меню -->
+        <div class="menu">
+            <h2>Меню блюд</h2>
+            <input type="text" id="search" placeholder="Введите ингредиент для поиска..." oninput="filterMenu()">
+            <ul id="menuList">
+                <li><b>1. Грибной суп:</b> грибы, молоко, вода, зелень, морковь</li>
+                <li><b>2. Бургер:</b> свинина, грибы, томаты, сыр, бекон</li>
+                <li><b>3. Паэлья:</b> рыба, креветки, рис, томат, масло</li>
+                <li><b>4. Гренки с чесноком:</b> яйцо, сахар, мука, молоко, вода</li>
+                <li><b>5. Пицца BBQ:</b> грибы, сахар, сыр, бекон, мука</li>
+                <li><b>6. Тартар:</b> лук, яйцо, соль, рыба, зелень</li>
+                <li><b>7. Мясо по-французски:</b> свинина, говядина, сыр, картофель, масло</li>
+                <li><b>8. Плов:</b> рис, говядина (можно заменить на курицу), масло, соль, лук</li>
+                <li><b>9. Пад тай:</b> рис, перец, креветки, морковь, сахар</li>
+                <li><b>10. Рамэн:</b> курица, вода, яйцо, мука, зелень</li>
+                <li><b>11. Зразы:</b> соль, говядина, свинина, картофель, перец</li>
+                <li><b>12. Том Ям:</b> креветки, вода, грибы, рыба, курица</li>
+                <li><b>13. Болоньезе:</b> свинина, говядина, томаты, перец, чеснок</li>
+                <li><b>14. Гратен:</b> картофель, сливки, чеснок, зелень, соль</li>
+                <li><b>15. Ризотто:</b> грибы, рис, курица, сливки, лук</li>
+                <li><b>16. Скрэмбл:</b> яйцо, бекон, молоко, масло, перец</li>
+                <li><b>17. Морковный торт:</b> морковь, сахар, мука, сливки, соль</li>
+                <li><b>18. Лазанья:</b> говядина, свинина, томаты, сыр, лук</li>
+                <li><b>19. Спринг ролл:</b> чеснок, креветки, лук, рис, морковь</li>
+                <li><b>20. Фахитас:</b> сахар, курица, масло, чеснок, перец</li>
+		<li><b>21. Сырный суп:</b> молоко, сыр, креветки, картофель, вода</li>
+                <li><b>22. Цезарь с курицей:</b> курица, бекон, зелень, рыба, томаты</li>
+                <li><b>23. Карбонара:</b> бекон, мука, яйцо, сливки, чеснок</li>
+                <li><b>24. Уха:</b> рыба, молоко, морковь, картофель, сливки</li>
+            </ul>
+        </div>
+        <!-- Блок Генератора -->
+        <div class="generator">
+            <h2>Генератор случайной буквы</h2>
+            <div id="letter">?</div>
+            <button onclick="generateLetter()">Сгенерировать букву</button>
+        </div>
+    </div>
+
+    <script>
+        // Фильтрация меню
+        const menuItems = document.querySelectorAll("#menuList li");
+
+        function filterMenu() {
+            const query = document.getElementById('search').value.toLowerCase();
+            menuItems.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                item.style.display = text.includes(query) ? "" : "none";
+            });
+        }
+
+        // Генератор случайной буквы
+        const letters = "АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЭЮЯ";
+        function generateLetter() {
+            const randomIndex = Math.floor(Math.random() * letters.length);
+            document.getElementById("letter").textContent = letters[randomIndex];
+        }
+    </script>
+</body>
+</html>
