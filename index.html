@@ -84,7 +84,7 @@
             transform: scale(0.98);
         }
 
-        #letter {
+        #letter, #number {
             font-size: 48px;
             font-weight: bold;
             text-align: center;
@@ -121,17 +121,23 @@
                 <li><b>18. Лазанья:</b> говядина, свинина, томаты, сыр, лук</li>
                 <li><b>19. Спринг ролл:</b> чеснок, креветки, лук, рис, морковь</li>
                 <li><b>20. Фахитас:</b> сахар, курица, масло, чеснок, перец</li>
-		<li><b>21. Сырный суп:</b> молоко, сыр, креветки, картофель, вода</li>
+                <li><b>21. Сырный суп:</b> молоко, сыр, креветки, картофель, вода</li>
                 <li><b>22. Цезарь с курицей:</b> курица, бекон, зелень, рыба, томаты</li>
                 <li><b>23. Карбонара:</b> бекон, мука, яйцо, сливки, чеснок</li>
                 <li><b>24. Уха:</b> рыба, молоко, морковь, картофель, сливки</li>
             </ul>
         </div>
-        <!-- Блок Генератора -->
+        <!-- Блок Генератора букв -->
         <div class="generator">
             <h2>Генератор случайной буквы</h2>
             <div id="letter">?</div>
             <button onclick="generateLetter()">Сгенерировать букву</button>
+        </div>
+        <!-- Блок Генератора чисел -->
+        <div class="generator">
+            <h2>Генератор случайного числа (1-6)</h2>
+            <div id="number">?</div>
+            <button onclick="generateNumber()">Сгенерировать число</button>
         </div>
     </div>
 
@@ -152,6 +158,12 @@
         function generateLetter() {
             const randomIndex = Math.floor(Math.random() * letters.length);
             document.getElementById("letter").textContent = letters[randomIndex];
+        }
+
+        // Генератор случайного числа от 1 до 6
+        function generateNumber() {
+            const randomNumber = Math.floor(Math.random() * 6) + 1;
+            document.getElementById("number").textContent = randomNumber;
         }
     </script>
 </body>
